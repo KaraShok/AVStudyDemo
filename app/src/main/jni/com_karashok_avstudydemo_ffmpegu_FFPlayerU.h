@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpegu_FFPlayerU_render
   (JNIEnv *, jclass, jstring, jobject);
 
+/*
+ * Class:     com_karashok_avstudydemo_ffmpegu_FFPlayerU
+ * Method:    sound
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpegu_FFPlayerU_sound
+  (JNIEnv *, jclass, jstring, jstring);
+
 #ifdef __cplusplus
 }
 #endif
