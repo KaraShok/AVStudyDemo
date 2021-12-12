@@ -27,12 +27,16 @@ public class PlayerActivity extends AppCompatActivity {
                     public void onClick(View v) {
 //                        String bashPath = getExternalFilesDir("").getAbsolutePath() + File.separator;
                         String bashPath = Environment.getExternalStorageDirectory().getPath() + File.separator;
-                        String inPutStr = bashPath + "demo.mp4";
+                        String inputUrl = bashPath + "demo.mp4";
                         //Surface传入到Native函数中，用于绘制
                         Surface surface = videoView.getHolder().getSurface();
-                        FFPlayerU.render(inPutStr,surface);
-                        String outPutStr = bashPath + "demoSoundOutput.mp4";
-                        FFPlayerU.sound(inPutStr,outPutStr);
+
+//                        FFPlayerU.render(inputUrl,surface);
+
+//                        String outPutStr = bashPath + "demoSoundOutput.mp4";
+//                        FFPlayerU.sound(inputUrl,outPutStr);
+
+                        FFPlayerU.play(inputUrl,surface);
                     }
                 });
     }

@@ -23,6 +23,14 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_ren
 JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_sound
   (JNIEnv *, jclass, jstring, jstring);
 
+/*
+ * Class:     com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU
+ * Method:    play
+ * Signature: (Ljava/lang/String;Ljava/lang/Object;)V
+ */
+JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_play
+  (JNIEnv *, jclass, jstring, jobject);
+
 #ifdef __cplusplus
 }
 #endif

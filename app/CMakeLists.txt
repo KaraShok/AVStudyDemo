@@ -23,8 +23,11 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_FFVersionU.c
         src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_FFVideoU.c
-        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.c
-        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_PushStreamU.c)
+        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_PushStreamU.c
+        src/main/cpp/player/PlayQueue.c
+        src/main/cpp/player/AudioPlayer.c
+        src/main/cpp/player/VideoPlayer.c
+        src/main/cpp/player/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.c)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 

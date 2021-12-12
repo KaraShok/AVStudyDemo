@@ -14,7 +14,9 @@ public class FFPlayerU {
 
     public static native void render(String input, Surface surface);
 
-    public static native void sound(String input,String output);
+    public static native void sound(String input, String output);
+
+    public static native void play(String input, Surface surface);
 
     /**
      * 创建一个AudioTrac对象，用于播放
@@ -24,7 +26,7 @@ public class FFPlayerU {
     public static AudioTrack createAudioTrack(int sampleRateInHz, int nb_channels){
         //固定格式的音频码流
         int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
-        Log.i("jason", "nb_channels: " + nb_channels);
+        Log.i("player", "nb_channels: " + nb_channels);
         //声道布局
         int channelConfig;
         if(nb_channels == 1){
