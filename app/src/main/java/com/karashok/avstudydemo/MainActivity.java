@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.karashok.avstudydemo.ffmpegu.FFVersionU;
+import com.karashok.avstudydemo.ffmpeg_utils.FFVersionU;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(FFVersionU.avcodecVersion());
 
-        findViewById(R.id.intent_activity_decode_btn)
+        findViewById(R.id.intent_aty_decode_btn)
                 .setOnClickListener(clickListener);
-        findViewById(R.id.intent_activity_player_btn)
+        findViewById(R.id.intent_aty_player_btn)
+                .setOnClickListener(clickListener);
+        findViewById(R.id.intent_aty_push_stream_btn)
                 .setOnClickListener(clickListener);
     }
 
@@ -33,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             int vId = v.getId();
-            if (vId == R.id.intent_activity_decode_btn) {
+            if (vId == R.id.intent_aty_decode_btn) {
                 startActivity(new Intent(MainActivity.this,DecodeActivity.class));
-            } else if (vId == R.id.intent_activity_player_btn) {
+            } else if (vId == R.id.intent_aty_player_btn) {
                 startActivity(new Intent(MainActivity.this,PlayerActivity.class));
+            } else if (vId == R.id.intent_aty_push_stream_btn) {
+                startActivity(new Intent(MainActivity.this, PushStreamActivity.class));
             }
         }
     };

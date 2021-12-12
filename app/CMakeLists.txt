@@ -21,10 +21,10 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/com_karashok_avstudydemo_ffmpegu_FFVersionU.c
-        src/main/cpp/com_karashok_avstudydemo_ffmpegu_FFVideoU.c
-        src/main/cpp/com_karashok_avstudydemo_ffmpegu_FFPlayerU.c
-        )
+        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_FFVersionU.c
+        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_FFVideoU.c
+        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.c
+        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_PushStreamU.c)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 

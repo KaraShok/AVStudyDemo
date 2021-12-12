@@ -1,4 +1,4 @@
-package com.karashok.avstudydemo.ffmpegu;
+package com.karashok.avstudydemo.ffmpeg_utils;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;

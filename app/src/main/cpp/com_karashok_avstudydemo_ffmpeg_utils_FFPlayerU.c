@@ -1,7 +1,7 @@
 //
 // Created by KaraShokZ on 2021/9/19.
 //
-#include "../jni/com_karashok_avstudydemo_ffmpegu_FFPlayerU.h"
+#include "../jni/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -24,7 +24,7 @@
 #include "libswresample/swresample.h"
 #define MAX_AUDIO_FRME_SIZE 48000 * 4
 
-JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpegu_FFPlayerU_render
+JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_render
         (JNIEnv *env, jclass jcls, jstring input_jstr, jobject surface) {
     const char *input_cstr = (*env)->GetStringUTFChars(env, input_jstr, NULL);
 //1.注册组件
@@ -128,7 +128,7 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpegu_FFPlayerU_render
     (*env)->ReleaseStringUTFChars(env, input_jstr, input_cstr);
 }
 
-JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpegu_FFPlayerU_sound
+JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_sound
         (JNIEnv *env, jclass jcls, jstring input_jstr, jstring output_jstr){
     const char* input_cstr = (*env)->GetStringUTFChars(env,input_jstr,NULL);
     const char* output_cstr = (*env)->GetStringUTFChars(env,output_jstr,NULL);

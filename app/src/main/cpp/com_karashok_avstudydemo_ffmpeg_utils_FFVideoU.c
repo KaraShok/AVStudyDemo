@@ -1,4 +1,4 @@
-#include "../jni/com_karashok_avstudydemo_ffmpegu_FFVideoU.h"
+#include "../jni/com_karashok_avstudydemo_ffmpeg_utils_FFVideoU.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,7 +15,7 @@
 #include "libswscale/swscale.h"
 
 
-JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpegu_FFVideoU_decode
+JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFVideoU_decode
         (JNIEnv *env, jclass jcls, jstring input_jstr, jstring output_jstr) {
     const char *input_cstr = (*env)->GetStringUTFChars(env, input_jstr, NULL);
     const char *output_cstr = (*env)->GetStringUTFChars(env, output_jstr, NULL);

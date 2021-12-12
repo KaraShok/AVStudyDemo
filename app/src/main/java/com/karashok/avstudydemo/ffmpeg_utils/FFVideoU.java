@@ -1,4 +1,4 @@
-package com.karashok.avstudydemo.ffmpegu;
+package com.karashok.avstudydemo.ffmpeg_utils;
 
 /**
  * @author zhangyaozhong @ Zhihu Inc.

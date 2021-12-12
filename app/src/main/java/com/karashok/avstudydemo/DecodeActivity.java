@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.karashok.avstudydemo.ffmpegu.FFVideoU;
+import com.karashok.avstudydemo.ffmpeg_utils.FFVideoU;
 
 import java.io.File;
 
