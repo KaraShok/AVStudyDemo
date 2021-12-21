@@ -11,9 +11,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/sample_text"
+            android:id="@+id/ffmpeg_version_tv"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/x264_version_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"/>
 
         <Button

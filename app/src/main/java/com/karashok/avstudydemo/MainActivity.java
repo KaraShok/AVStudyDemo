@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.karashok.avstudydemo.ffmpeg_utils.FFVersionU;
+import com.karashok.pusher.NativeLib;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +21,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tv = findViewById(R.id.sample_text);
-        tv.setText(FFVersionU.avcodecVersion());
+        TextView ffmpegVersionTv = findViewById(R.id.ffmpeg_version_tv);
+        ffmpegVersionTv.setText("ffmpet version -> " + FFVersionU.avcodecVersion());
+
+        TextView tv = findViewById(R.id.x264_version_tv);
+        tv.setText("ffmpet version -> " + new NativeLib().stringFromJNI());
 
         findViewById(R.id.intent_aty_decode_btn)
                 .setOnClickListener(clickListener);
