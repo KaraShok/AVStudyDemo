@@ -58,6 +58,8 @@ set_target_properties( swscale PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/
 add_library( yuv SHARED IMPORTED)
 set_target_properties( yuv PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/cpp/armeabi-v7a/libyuv.so)
 
+add_library( x264 SHARED IMPORTED)
+set_target_properties( x264 PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/cpp/armeabi-v7a/libx264.so)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -94,5 +96,6 @@ target_link_libraries(
         avfilter
         avdevice
         yuv
+        x264
         ${log-lib}
 )
