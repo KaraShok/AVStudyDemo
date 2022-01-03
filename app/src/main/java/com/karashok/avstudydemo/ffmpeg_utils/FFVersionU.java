@@ -16,6 +16,9 @@ public class FFVersionU {
         System.loadLibrary("avfilter");
         System.loadLibrary("avdevice");
         System.loadLibrary("yuv");
+        System.loadLibrary("x264");
+        System.loadLibrary("faac");
+        System.loadLibrary("rtmp");
     }
 
     public static native String avcodecVersion();

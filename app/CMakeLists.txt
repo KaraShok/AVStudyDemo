@@ -27,7 +27,8 @@ add_library( # Sets the name of the library.
         src/main/cpp/player/PlayQueue.c
         src/main/cpp/player/AudioPlayer.c
         src/main/cpp/player/VideoPlayer.c
-        src/main/cpp/player/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.c)
+        src/main/cpp/player/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.c
+        src/main/cpp/com_karashok_avstudydemo_ffmpeg_utils_PushU.c)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 
@@ -61,6 +62,11 @@ set_target_properties( yuv PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/
 add_library( x264 SHARED IMPORTED)
 set_target_properties( x264 PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/cpp/armeabi-v7a/libx264.so)
 
+add_library( faac SHARED IMPORTED)
+set_target_properties( faac PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/cpp/armeabi-v7a/libfaac.so)
+
+add_library( rtmp SHARED IMPORTED)
+set_target_properties( rtmp PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/cpp/armeabi-v7a/librtmp.so)
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -97,5 +103,7 @@ target_link_libraries(
         avdevice
         yuv
         x264
+        faac
+        rtmp
         ${log-lib}
 )

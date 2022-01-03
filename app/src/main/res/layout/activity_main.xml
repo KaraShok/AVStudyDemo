@@ -44,5 +44,12 @@
             android:layout_height="40dp"
             android:layout_marginBottom="10dp"
             android:text="PushStreamActivity"/>
+
+        <Button
+            android:id="@+id/intent_aty_push_btn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:text="PushActivity"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
