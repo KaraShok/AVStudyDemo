@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.karashok.avstudydemo.push.LivePusher;
+import com.karashok.avstudydemo.utils.ConstantsU;
 
 public class PushActivity extends AppCompatActivity {
-
-    private static final String URL = "rtmp://49.232.167.72:1935/live/jason";
 
     private boolean living = false;
     private Button pushBtn;
@@ -43,7 +42,7 @@ public class PushActivity extends AppCompatActivity {
                     pushBtn.setText("开始直播");
                 } else  {
                     living = true;
-                    live.startPush(URL);
+                    live.startPush(ConstantsU.RTMP_URL);
                     pushBtn.setText("停止直播");
                 }
             }

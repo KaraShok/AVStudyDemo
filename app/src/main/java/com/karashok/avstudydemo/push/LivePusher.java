@@ -29,7 +29,7 @@ public class LivePusher implements SurfaceHolder.Callback {
         pushNative = new PushU();
 
         //实例化视频推流器
-        VideoParam videoParam = new VideoParam(480, 320, Camera.CameraInfo.CAMERA_FACING_BACK);
+        VideoParam videoParam = new VideoParam(720, 1280, Camera.CameraInfo.CAMERA_FACING_BACK);
         videoPusher = new VideoPusher(surfaceHolder,videoParam,pushNative);
 
         //实例化音频推流器

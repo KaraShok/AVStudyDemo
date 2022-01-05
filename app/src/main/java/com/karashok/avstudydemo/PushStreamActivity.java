@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.karashok.avstudydemo.ffmpeg_utils.PushStreamU;
+import com.karashok.avstudydemo.utils.ConstantsU;
 
 import java.io.File;
 
@@ -28,7 +29,7 @@ public class PushStreamActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String inputUrl = Environment.getExternalStorageDirectory().getPath() + File.separator + et_input.getText().toString();
-                        String outputUrl = et_output.getText().toString();
+                        String outputUrl = ConstantsU.RTMP_HOST + et_output.getText().toString();
                         PushStreamU.push(inputUrl,outputUrl);
                     }
                 });

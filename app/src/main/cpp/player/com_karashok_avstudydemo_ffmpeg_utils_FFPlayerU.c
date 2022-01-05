@@ -6,11 +6,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <android/log.h>
 #include <android/native_window_jni.h>
 #include <android/native_window.h>
-#define LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO,"jason",FORMAT,##__VA_ARGS__);
-#define LOGE(FORMAT,...) __android_log_print(ANDROID_LOG_ERROR,"jason",FORMAT,##__VA_ARGS__);
 #include "libyuv/libyuv.h"
 #include "PlayQueue.h"
 #include "libavutil/time.h"
@@ -23,6 +20,10 @@
 #include "libswscale/swscale.h"
 //重采样
 #include "libswresample/swresample.h"
+
+#include "../AndroidLogU.h"
+
+#define Log_Tag "AudioPlayer"
 
 //nb_streams，视频文件中存在，音频流，视频流，字幕
 #define MAX_STREAM 2
@@ -104,17 +105,17 @@ void init_input_format_ctx(Player *player,const char* input_cstr){
 
     //打开输入视频文件
     if(avformat_open_input(&format_ctx,input_cstr,NULL,NULL) != 0){
-        LOGE("%s","打开输入视频文件失败");
+        LogE(Log_Tag,"%s","打开输入视频文件失败");
         return;
     }
     //获取视频信息
     if(avformat_find_stream_info(format_ctx,NULL) < 0){
-        LOGE("%s","获取视频信息失败");
+        LogE(Log_Tag,"%s","获取视频信息失败");
         return;
     }
 
     player->captrue_streams_no = format_ctx->nb_streams;
-    LOGI("captrue_streams_no:%d",player->captrue_streams_no);
+    LogI(Log_Tag,"captrue_streams_no:%d",player->captrue_streams_no);
     //视频解码，需要找到视频对应的AVStream所在format_ctx->streams的索引位置
     //获取音频和视频流的索引位置
     int i;
@@ -136,17 +137,17 @@ void init_input_format_ctx(Player *player,const char* input_cstr){
 void init_codec_context(Player *player,int stream_idx){
     AVFormatContext *format_ctx = player->input_format_ctx;
     //获取解码器
-    LOGI("init_codec_context begin");
+    LogI(Log_Tag,"init_codec_context begin");
     AVCodecContext *codec_ctx = format_ctx->streams[stream_idx]->codec;
-    LOGI("init_codec_context end");
+    LogI(Log_Tag,"init_codec_context end");
     AVCodec *codec = avcodec_find_decoder(codec_ctx->codec_id);
     if(codec == NULL){
-        LOGE("%s","无法解码");
+        LogE(Log_Tag,"%s","无法解码");
         return;
     }
     //打开解码器
     if(avcodec_open2(codec_ctx,codec,NULL) < 0){
-        LOGE("%s","解码器无法打开");
+        LogE(Log_Tag,"%s","解码器无法打开");
         return;
     }
     player->input_codec_ctx[stream_idx] = codec_ctx;
@@ -174,7 +175,7 @@ void player_wait_for_frame(Player *player, int64_t stream_time,
         if (sleep_time < -300000ll) {
             // 300 ms late
             int64_t new_value = player->start_time - sleep_time;
-            LOGI("player_wait_for_frame[%d] correcting %f to %f because late",
+            LogI(Log_Tag,"player_wait_for_frame[%d] correcting %f to %f because late",
                  stream_no, (av_gettime() - player->start_time) / 1000000.0,
                  (av_gettime() - new_value) / 1000000.0);
 
@@ -197,7 +198,7 @@ void player_wait_for_frame(Player *player, int64_t stream_time,
         int timeout_ret1 = pthread_cond_timeout_np(&player->cond,&player->mutex, sleep_time/1000ll);
 
         // just go further
-        LOGI("player_wait_for_frame[%d] finish", stream_no);
+        LogI(Log_Tag,"player_wait_for_frame[%d] finish", stream_no);
     }
     pthread_mutex_unlock(&player->mutex);
 }
@@ -327,7 +328,7 @@ void decode_audio(Player *player,AVPacket *packet){
     AVStream *stream = input_format_ctx->streams[player->video_stream_index];
 
     AVCodecContext *codec_ctx = player->input_codec_ctx[player->audio_stream_index];
-    LOGI("%s","decode_audio");
+    LogI(Log_Tag,"%s","decode_audio");
     //解压缩数据
     AVFrame *frame = av_frame_alloc();
     int got_frame;
@@ -346,7 +347,7 @@ void decode_audio(Player *player,AVPacket *packet){
         if (pts != AV_NOPTS_VALUE) {
             player->audio_clock = av_rescale_q(pts, stream->time_base, AV_TIME_BASE_Q);
             //				av_q2d(stream->time_base) * pts;
-            LOGI("player_write_audio - read from pts");
+            LogI(Log_Tag,"player_write_audio - read from pts");
             player_wait_for_frame(player,
                                   player->audio_clock + AUDIO_TIME_ADJUST_US, player->audio_stream_index);
         }
@@ -400,10 +401,10 @@ void* decode_data(void* arg){
         pthread_mutex_unlock(&player->mutex);
         if(stream_index == player->video_stream_index){
             decode_video(player,packet);
-            LOGI("video_frame_count:%d",video_frame_count++);
+            LogI(Log_Tag,"video_frame_count:%d",video_frame_count++);
         }else if(stream_index == player->audio_stream_index){
             decode_audio(player,packet);
-            LOGI("audio_frame_count:%d",audio_frame_count++);
+            LogI(Log_Tag,"audio_frame_count:%d",audio_frame_count++);
         }
 
     }
@@ -432,7 +433,7 @@ void player_alloc_queues(Player *player){
         Queue *queue = queue_init(PACKET_QUEUE_SIZE,(queue_fill_func)player_fill_packet);
         player->packets[i] = queue;
         //打印视频音频队列地址
-        LOGI("stream index:%d,queue:%#x",i,queue);
+        LogI(Log_Tag,"stream index:%d,queue:%#x",i,queue);
     }
 }
 
@@ -466,7 +467,7 @@ void* player_read_from_stream(Player* player){
         //拷贝（间接赋值，拷贝结构体数据）
         *packet_data = packet;
         pthread_mutex_unlock(&player->mutex);
-        LOGI("queue:%#x, packet:%#x",queue,packet);
+        LogI(Log_Tag,"queue:%#x, packet:%#x",queue,packet);
     }
 }
 

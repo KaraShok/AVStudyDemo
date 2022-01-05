@@ -6,25 +6,22 @@
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/time.h"
-#include <android/log.h>
+#include "AndroidLogU.h"
 
-
-#define LOGE(format, ...)  __android_log_print(ANDROID_LOG_ERROR, "push_stream", format, ##__VA_ARGS__)
-#define LOGI(format, ...)  __android_log_print(ANDROID_LOG_INFO,  "push_stream", format, ##__VA_ARGS__)
+#define Log_Tag "PushStreamU"
 
 JNIEXPORT void JNICALL
 Java_com_karashok_avstudydemo_ffmpeg_1utils_PushStreamU_push(
-        JNIEnv
-        *env,
-        jclass cls, jstring
-        input_jstr,
+        JNIEnv *env,
+        jclass cls,
+        jstring input_jstr,
         jstring output_jstr
 ) {
 
     const char *input_cstr = (*env)->GetStringUTFChars(env, input_jstr, NULL);
     const char *output_cstr = (*env)->GetStringUTFChars(env, output_jstr, NULL);
 
-    LOGI("input_cstr: %s", input_cstr);
+    LogI(Log_Tag,"input_cstr: %s", input_cstr);
     // 注册组件
     av_register_all();
 
@@ -34,11 +31,10 @@ Java_com_karashok_avstudydemo_ffmpeg_1utils_PushStreamU_push(
     // 变量初始化
     AVFormatContext *inFmtCtx = avformat_alloc_context(), *outFmtCtx = NULL;
     int ret = avformat_open_input(&inFmtCtx, input_cstr, NULL, NULL);
-    LOGI("open_input_ret: %d", ret);
-
+    LogI(Log_Tag,"open_input_ret: %d", ret);
     // 打开输入文件
     if (ret != 0) {
-        LOGE("无法打开文件");
+        LogE(Log_Tag,"无法打开文件");
         goto end;
     }
 
@@ -70,7 +66,7 @@ Java_com_karashok_avstudydemo_ffmpeg_1utils_PushStreamU_push(
     // 先写一个头
     ret = avformat_write_header(outFmtCtx, NULL);
     if (ret < 0) {
-        LOGE("推流发生错误\n");
+        LogE(Log_Tag,"推流发生错误\n");
         goto end;
     }
 
@@ -136,14 +132,14 @@ Java_com_karashok_avstudydemo_ffmpeg_1utils_PushStreamU_push(
 
         // 输出进度
         if (pkt.stream_index == videoindex) {
-            LOGI("第%d帧", frame_index);
+            LogI(Log_Tag,"第%d帧", frame_index);
             frame_index++;
         }
         // 推送
         ret = av_interleaved_write_frame(outFmtCtx, &pkt);
 
         if (ret < 0) {
-            LOGE("Error muxing packet");
+            LogE(Log_Tag,"Error muxing packet");
             break;
         }
         av_free_packet(&pkt);

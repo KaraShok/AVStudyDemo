@@ -2,10 +2,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <android/log.h>
+#include "AndroidLogU.h"
 
-#define LOGI(FORMAT, ...) __android_log_print(ANDROID_LOG_INFO,"karashok",FORMAT,##__VA_ARGS__);
-#define LOGE(FORMAT, ...) __android_log_print(ANDROID_LOG_ERROR,"karashok",FORMAT,##__VA_ARGS__);
+#define Log_Tag "FFVideoU"
 
 //封装格式
 #include "libavformat/avformat.h"
@@ -28,12 +27,12 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFVideoU_deco
 
 //2.打开输入视频文件
     if (avformat_open_input(&pFormatCtx, input_cstr, NULL, NULL) != 0) {
-        LOGE("%s", "打开输入视频文件失败");
+        LogE(Log_Tag,"%s", "打开输入视频文件失败");
         return;
     }
 //3.获取视频信息
     if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
-        LOGE("%s", "获取视频信息失败");
+        LogE(Log_Tag,"%s", "获取视频信息失败");
         return;
     }
 
@@ -52,13 +51,13 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFVideoU_deco
     AVCodecContext *pCodeCtx = pFormatCtx->streams[video_stream_idx]->codec;
     AVCodec *pCodec = avcodec_find_decoder(pCodeCtx->codec_id);
     if (pCodec == NULL) {
-        LOGE("%s", "无法解码");
+        LogE(Log_Tag,"%s", "无法解码");
         return;
     }
 
 //5.打开解码器
     if (avcodec_open2(pCodeCtx, pCodec, NULL) < 0) {
-        LOGE("%s", "解码器无法打开");
+        LogE(Log_Tag,"%s", "解码器无法打开");
         return;
     }
 
@@ -110,7 +109,7 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFVideoU_deco
             fwrite(yuvFrame->data[1], 1, y_size / 4, fp_yuv);
             fwrite(yuvFrame->data[2], 1, y_size / 4, fp_yuv);
 
-            LOGI("解码%d帧", framecount++);
+            LogI(Log_Tag,"解码%d帧", framecount++);
         }
 
         av_free_packet(packet);

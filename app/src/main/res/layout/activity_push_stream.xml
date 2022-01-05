@@ -21,10 +21,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="100"
             android:inputType="textUri"
+            android:maxLines="1"
             android:text="demo.mp4"
-            android:textColor="#ff8c00" />
+            android:textColor="#ff8c00"/>
     </LinearLayout>
 
     <LinearLayout
@@ -44,9 +44,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:ems="200"
+            android:maxLines="1"
             android:inputType="textUri"
-            android:text="rtmp://49.232.167.72:1935/live/jason"
+            android:text="jason"
             android:textColor="#ff8c00" />
     </LinearLayout>
 

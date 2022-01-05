@@ -3,9 +3,9 @@
 //
 
 #include <pthread.h>
-#include <android/log.h>
-#define LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO,"jason",FORMAT,##__VA_ARGS__);
-#define LOGE(FORMAT,...) __android_log_print(ANDROID_LOG_ERROR,"jason",FORMAT,##__VA_ARGS__);
+#include "../AndroidLogU.h"
+
+#define Log_Tag "PlayQueue"
 
 typedef struct _Queue Queue;
 

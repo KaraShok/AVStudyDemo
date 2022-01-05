@@ -4,10 +4,10 @@
 #include "../../jni/com_karashok_avstudydemo_ffmpeg_utils_FFPlayerU.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <android/log.h>
+#include "../AndroidLogU.h"
+#include <jni.h>
 
-#define LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO,"jason",FORMAT,##__VA_ARGS__);
-#define LOGE(FORMAT,...) __android_log_print(ANDROID_LOG_ERROR,"jason",FORMAT,##__VA_ARGS__);
+#define Log_Tag "AudioPlayer"
 
 #define MAX_AUDIO_FRME_SIZE 48000 * 4
 
@@ -26,7 +26,7 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_sou
     const char* input_cstr = (*env)->GetStringUTFChars(env,input_jstr,NULL);
     const char  *output_cstr = (*env)->GetStringUTFChars(env,output_jstr,NULL);
 
-    LOGI("%s","sound");
+    LogI(Log_Tag,"%s","sound");
 
     //注册组件
     av_register_all();
@@ -34,13 +34,13 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_sou
 
     //打开音频文件
     if(avformat_open_input(&pFormatCtx,input_cstr,NULL,NULL) != 0){
-        LOGI("%s","无法打开音频文件");
+        LogI(Log_Tag,"%s","无法打开音频文件");
         return;
     }
 
     //获取输入文件信息
     if(avformat_find_stream_info(pFormatCtx,NULL) < 0){
-        LOGI("%s","无法获取输入文件信息");
+        LogI(Log_Tag,"%s","无法获取输入文件信息");
         return;
     }
 
@@ -57,13 +57,13 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_sou
     AVCodecContext *codecCtx = pFormatCtx->streams[audio_stream_idx]->codec;
     AVCodec *codec = avcodec_find_decoder(codecCtx->codec_id);
     if(codec == NULL){
-        LOGI("%s","无法获取解码器");
+        LogI(Log_Tag,"%s","无法获取解码器");
         return;
     }
 
     //打开解码器
     if(avcodec_open2(codecCtx,codec,NULL) < 0){
-        LOGI("%s","无法打开解码器");
+        LogI(Log_Tag,"%s","无法打开解码器");
         return;
     }
 
@@ -129,11 +129,11 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_FFPlayerU_sou
             ret = avcodec_decode_audio4(codecCtx,frame,&got_frame,packet);
 
             if(ret < 0){
-                LOGI("%s","解码完成");
+                LogI(Log_Tag,"%s","解码完成");
             }
             //解码一帧成功
             if(got_frame > 0){
-                LOGI("解码：%d",index++);
+                LogI(Log_Tag,"解码：%d",index++);
                 swr_convert(swrCtx, &out_buffer, MAX_AUDIO_FRME_SIZE,(const uint8_t **)frame->data,frame->nb_samples);
                 //获取sample的size
                 int out_buffer_size = av_samples_get_buffer_size(NULL, out_channel_nb,

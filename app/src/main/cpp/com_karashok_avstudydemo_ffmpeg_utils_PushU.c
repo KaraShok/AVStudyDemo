@@ -1,10 +1,10 @@
 #include "../jni/com_karashok_avstudydemo_ffmpeg_utils_PushU.h"
 
-#include <android/log.h>
 #include <android/native_window_jni.h>
 #include <android/native_window.h>
-#define LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO,"jason",FORMAT,##__VA_ARGS__)
-#define LOGE(FORMAT,...) __android_log_print(ANDROID_LOG_ERROR,"jason",FORMAT,##__VA_ARGS__)
+#include "AndroidLogU.h"
+
+#define Log_Tag "PushU"
 
 #include "include/libx264/x264.h"
 
@@ -65,7 +65,7 @@ JNIEXPORT void JNICALL Java_com_karashok_avstudydemo_ffmpeg_1utils_PushU_setVide
     //打开编码器
     x264_t *x264_encoder = x264_encoder_open(&param);
     if(x264_encoder){
-        LOGI("打开编码器成功...");
+        LogI(Log_Tag,"打开编码器成功...");
     }
 }
 
